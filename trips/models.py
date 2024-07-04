@@ -14,7 +14,7 @@ class Trip(models.Model):
     flight_out_time = models.DateTimeField()
     flight_back_number = models.CharField(max_length=10)
     flight_back_time = models.DateTimeField()
-    activities = ArrayField(models.CharField(max_length=200), blank=True)
+    activities = ArrayField(models.CharField(max_length=200), blank=True, null=True)
     itinerary = models.TextField()
     budget = models.FloatField()
     hotels_cost = models.FloatField()

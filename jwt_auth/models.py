@@ -13,6 +13,7 @@ class User(AbstractUser):
     last_name = models.CharField(max_length=50)
     trips = models.ManyToManyField(
         "trips.Trip",
-        related_name="trips",
+        related_name="owners",
+        blank=True
         # on_delete=models.CASCADE
     )
