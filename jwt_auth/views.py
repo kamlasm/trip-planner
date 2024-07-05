@@ -16,9 +16,17 @@ class RegisterView(APIView):
         user_to_create = UserSerializer(data=request.data)
 
         if user_to_create.is_valid():
-            user_to_create.save()
-            return Response({'message': 'Registration successful'}, status=status.HTTP_201_CREATED)
-        
+            new_user = user_to_create.save()
+            
+            dt = datetime.now() + timedelta(days=7)
+            
+            token = jwt.encode(
+            {'sub': new_user.id, 'exp': int(dt.strftime('%s')), 'username': new_user.username },
+            settings.SECRET_KEY,
+            algorithm='HS256'
+            )
+            return Response({'message': 'Registration successful', 'token': token}, status=status.HTTP_201_CREATED)
+
         return Response(user_to_create.errors, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
     
 class LoginView(APIView):
@@ -39,7 +47,7 @@ class LoginView(APIView):
         dt = datetime.now() + timedelta(days=7)
 
         token = jwt.encode(
-            {'sub': user_to_login.id, 'exp': int(dt.strftime('%s'))},
+            {'sub': user_to_login.id, 'exp': int(dt.strftime('%s')), 'username': user_to_login.username },
             settings.SECRET_KEY,
             algorithm='HS256'
         )
