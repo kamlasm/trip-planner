@@ -16,7 +16,6 @@ class TripListView(APIView):
     
     def post(self, request):
         trip_to_add = TripSerializer(data=request.data)
-        
         if trip_to_add.is_valid():
             new_trip = trip_to_add.save()
             request.user.trips.add(new_trip.id)            
