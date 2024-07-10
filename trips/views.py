@@ -5,6 +5,9 @@ from rest_framework.exceptions import NotFound, PermissionDenied
 from rest_framework.permissions import IsAuthenticated
 from .models import Trip
 from .serializers import TripSerializer, PopulatedTripSerializer
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 class TripListView(APIView):
     permission_classes = (IsAuthenticated, )
@@ -63,3 +66,47 @@ class TripDetailView(APIView):
 
         trip_to_delete.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+class TripAddUser(APIView):
+    permission_classes = (IsAuthenticated, )
+
+    def post(self, request, pk):
+        try:
+            trip = Trip.objects.get(pk=pk)
+        except Trip.DoesNotExist:
+            raise NotFound(detail="Oh no, can't find that trip!")
+
+        email = request.data.get('email')
+
+        try:
+            user = User.objects.get(email=email)
+            if trip not in user.trips.all():
+                user.trips.add(trip)           
+                return Response({'message': 'User added to trip'}, status=status.HTTP_200_OK)
+            
+            return Response({'message': 'User is already on this trip!'}, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
+        
+        except User.DoesNotExist:
+            raise PermissionDenied(detail='Invalid email')
+
+class TripRemoveUser(APIView):
+    permission_classes = (IsAuthenticated, )
+
+    def post(self, request, pk):
+        try:
+            trip = Trip.objects.get(pk=pk)
+        except Trip.DoesNotExist:
+            raise NotFound(detail="Oh no, can't find that trip!")
+
+        userId = request.data.get('userId')
+
+        try:
+            user = User.objects.get(id=userId)
+            if trip in user.trips.all():
+                user.trips.remove(trip)           
+                return Response({'message': 'User removed from trip'}, status=status.HTTP_200_OK)
+            
+            return Response({'message': 'User is not on this trip!'}, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
+        
+        except User.DoesNotExist:
+            raise PermissionDenied(detail='Invalid email')                    
