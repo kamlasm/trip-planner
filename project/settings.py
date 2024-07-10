@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'jwt_auth',
     'trips',
     'costs',
+    'third_party_apis',
     'corsheaders'
 ]
 
@@ -151,3 +152,7 @@ REST_FRAMEWORK = {
 }
 
 CORS_ALLOW_ALL_ORIGINS = True
+
+EXCHANGE_RATE_API_KEY = os.getenv('EXCHANGE_RATE_API_KEY')
+HOTELBEDS_API_KEY = os.getenv('HOTELBEDS_API_KEY')
+HOTELBEDS_API_SECRET = os.getenv('HOTELBEDS_API_SECRET')
