@@ -4,8 +4,6 @@ from rest_framework import status
 import requests
 from django.conf import settings
 import hashlib
-import hmac
-import base64
 import time
 
 class CountryListView(APIView):
@@ -46,12 +44,19 @@ class HotelView(APIView):
         hash_signature = hashlib.sha256(signature.encode()).hexdigest()
         return hash_signature
 
-    def get(self, _request):
-        url = 'https://api.test.hotelbeds.com/hotel-api/1.0/status'
-
+    def post(self, request):
+        country = request.data['country']
+        city = request.data['city']
+        
+        try: 
+            response = requests.get(f'https://restcountries.com/v3.1/name/{country}')
+            data = response.json()           
+            countryCode = data[0]['cca2']
+        except: 
+            return Response(data.errors, status=status.HTTP_404_NOT_FOUND)
+        
         api_key = settings.HOTELBEDS_API_KEY
         api_secret = settings.HOTELBEDS_API_SECRET
-
         hash_signature = self.generate_signature(api_key, api_secret)
 
         headers = {
@@ -61,9 +66,37 @@ class HotelView(APIView):
             'Content-Type': 'application/json'
         }
 
+        params = {
+            'fields': 'all',
+            'language': 'ENG',
+            'from': 1,
+            'to': 100,
+            'countryCodes': countryCode
+        }
+        
         try:
-            response = requests.get(url, headers=headers)
+            response = requests.get('https://api.test.hotelbeds.com/hotel-content-api/1.0/locations/destinations', headers=headers, params=params)
+            data = response.json()
+            destinations = data['destinations']
+        except: 
+            return Response(data.errors, status=status.HTTP_404_NOT_FOUND)       
+
+        for destination in destinations:
+            if destination.get('name') != None and destination['name']['content'] == city:
+                destinationCode = destination['code']
+                break
+
+        params = {
+            'destinationCode': destinationCode,
+            'fields': 'all',
+            'language': 'ENG',
+            'from': 1,
+            'to': 100,
+        }
+        
+        try:
+            response = requests.get('https://api.test.hotelbeds.com/hotel-content-api/1.0/hotels', headers=headers, params=params)
             data = response.json()
             return Response(data, status=status.HTTP_200_OK)
-        except requests.exceptions.RequestException as e:
-            return Response({'error': str(e)}, status=500)
+        except: 
+            return Response(data.errors, status=status.HTTP_404_NOT_FOUND)  
