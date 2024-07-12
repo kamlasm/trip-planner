@@ -9,28 +9,31 @@ https://docs.djangoproject.com/en/5.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
-
-from pathlib import Path
-
 import os
+from pathlib import Path
+import django_on_heroku
 from dotenv import load_dotenv
+import dj_database_url
 load_dotenv()
+
+ENV = str(os.getenv('ENVIRONMENT', 'DEV'))
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-6#*(&uq@)*ro@8ujffxzjw#&vt*=u7w_&%cz&rwqifyir&3%-a'
+if ENV == 'DEV':
+    SECRET_KEY = 'django-insecure-6#*(&uq@)*ro@8ujffxzjw#&vt*=u7w_&%cz&rwqifyir&3%-a'
+else:
+    SECRET_KEY = str(os.getenv('SECRET_KEY'))
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = ENV == 'DEV'
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -86,8 +89,11 @@ WSGI_APPLICATION = 'project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
+DATABASES = {}
+if ENV != 'DEV':
+     DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)	
+else:
+    DATABASES['default'] = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2', 
 	    'NAME': 'trip-planner-api', 
 		'HOST': 'localhost', 
@@ -95,7 +101,6 @@ DATABASES = {
 		'USER': os.getenv('DATABASE_USER'),
         'PASSWORD': os.getenv('DATABASE_PASSWORD') 
     }
-}
 
 
 # Password validation
@@ -133,6 +138,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
@@ -159,3 +165,5 @@ HOTELBEDS_API_KEY = os.getenv('HOTELBEDS_API_KEY')
 HOTELBEDS_API_SECRET = os.getenv('HOTELBEDS_API_SECRET')
 AMADEUS_API_KEY = os.getenv('AMADEUS_API_KEY')
 AMADEUS_API_SECRET = os.getenv('AMADEUS_API_SECRET')
+
+django_on_heroku.settings(locals())
