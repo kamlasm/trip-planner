@@ -100,3 +100,54 @@ class HotelView(APIView):
             return Response(data, status=status.HTTP_200_OK)
         except: 
             return Response(data['error'], status=status.HTTP_404_NOT_FOUND)  
+
+class FlightsView(APIView):
+    def get_headers(self):
+        api_key = settings.AMADEUS_API_KEY
+        api_secret = settings.AMADEUS_API_SECRET
+        body = {
+            'grant_type': 'client_credentials',
+            'client_id': api_key,
+            'client_secret': api_secret,
+        }
+        try:
+            response = requests.post('https://test.api.amadeus.com/v1/security/oauth2/token', headers={'Content-Type': 'application/x-www-form-urlencoded'}, data=body)
+            data = response.json()
+            token = data['access_token']
+            headers = {'Authorization': f'Bearer {token}' }
+            return headers
+        except: 
+            return Response(data['errors'], status=status.HTTP_404_NOT_FOUND)
+
+    # def get(self, request):
+    #     params = {
+    #         'subType': ['CITY', 'AIRPORT'],
+    #         'keyword': request.data['keyword'],
+    #         'sort': 'analytics.travelers.score',
+    #         'view': 'LIGHT'
+    #     }
+
+    #     try: 
+    #         response = requests.get('https://test.api.amadeus.com/v1/reference-data/locations', params=params, headers=self.get_headers())
+    #         data = response.json()
+    #         print(data)
+    #         return Response(data, status=status.HTTP_200_OK)
+    #     except: 
+    #         return Response(data['errors'], status=status.HTTP_404_NOT_FOUND)
+
+    def post(self, request):
+        params = {
+            'originLocationCode': request.data['originCity'],
+            'destinationLocationCode': request.data['destinationCity'],
+            'departureDate': request.data['departureDate'],
+            'returnDate': request.data['returnDate'],
+            'adults': request.data['adults']
+            }
+        
+        try:
+            response = requests.get('https://test.api.amadeus.com/v2/shopping/flight-offers', params=params, headers=self.get_headers())
+            data = response.json()
+            print(data)
+            return Response(data, status=status.HTTP_200_OK)
+        except:
+            return Response(data['errors'], status=status.HTTP_404_NOT_FOUND)
