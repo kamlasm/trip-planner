@@ -9,7 +9,6 @@ class Trip(models.Model):
     country = models.CharField(max_length=60)
     start_date = models.DateField()
     end_date = models.DateField()
-    hotels = ArrayField(models.CharField(max_length=500, blank=True))
     flight_out_number = models.CharField(max_length=40, blank=True, default='')
     flight_out_time = models.DateTimeField(null=True, blank=True)
     flight_back_number = models.CharField(max_length=40, blank=True, default='')

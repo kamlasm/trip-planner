@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'jwt_auth',
     'trips',
     'costs',
+    'hotels',
     'third_party_apis',
     'corsheaders'
 ]

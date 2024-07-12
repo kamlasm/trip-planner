@@ -58,7 +58,7 @@ class HotelView(APIView):
         api_key = settings.HOTELBEDS_API_KEY
         api_secret = settings.HOTELBEDS_API_SECRET
         hash_signature = self.generate_signature(api_key, api_secret)
-
+    
         headers = {
             'Api-Key': api_key,
             'X-Signature': hash_signature,
@@ -70,8 +70,8 @@ class HotelView(APIView):
             'fields': 'all',
             'language': 'ENG',
             'from': 1,
-            'to': 100,
-            'countryCodes': countryCode
+            'to': 1000,
+            'countryCodes': [countryCode]
         }
         
         try:
@@ -79,7 +79,7 @@ class HotelView(APIView):
             data = response.json()
             destinations = data['destinations']
         except: 
-            return Response(data.errors, status=status.HTTP_404_NOT_FOUND)       
+            return Response(data['error'], status=status.HTTP_404_NOT_FOUND)       
 
         for destination in destinations:
             if destination.get('name') != None and destination['name']['content'] == city:
@@ -99,4 +99,4 @@ class HotelView(APIView):
             data = response.json()
             return Response(data, status=status.HTTP_200_OK)
         except: 
-            return Response(data.errors, status=status.HTTP_404_NOT_FOUND)  
+            return Response(data['error'], status=status.HTTP_404_NOT_FOUND)  

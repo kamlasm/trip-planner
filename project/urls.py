@@ -22,5 +22,6 @@ urlpatterns = [
     path('api/auth/', include('jwt_auth.urls')),
     path('api/trips/', include('trips.urls')),
     path('api/costs/', include('costs.urls')),
+    path('api/hotels/', include('hotels.urls')),
     path('third-party-api/', include('third_party_apis.urls')),
 ]
