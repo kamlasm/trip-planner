@@ -1,0 +1,20 @@
+[
+{
+  "model": "hotels.hotel",
+  "pk": 1,
+  "fields": {
+    "name": "hotel name",
+    "link": "https://www.booking.com/",
+    "trip": 3
+  }
+},
+{
+  "model": "hotels.hotel",
+  "pk": 3,
+  "fields": {
+    "name": "hotel 2",
+    "link": "",
+    "trip": 3
+  }
+}
+]

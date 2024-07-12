@@ -1,0 +1,56 @@
+[
+{
+  "model": "costs.cost",
+  "pk": 1,
+  "fields": {
+    "category": "Flights",
+    "amount": 400.0,
+    "trip": 2
+  }
+},
+{
+  "model": "costs.cost",
+  "pk": 4,
+  "fields": {
+    "category": "Car hire",
+    "amount": 80.0,
+    "trip": 2
+  }
+},
+{
+  "model": "costs.cost",
+  "pk": 5,
+  "fields": {
+    "category": "Hotel",
+    "amount": 300.0,
+    "trip": 2
+  }
+},
+{
+  "model": "costs.cost",
+  "pk": 8,
+  "fields": {
+    "category": "Flights",
+    "amount": 300.0,
+    "trip": 3
+  }
+},
+{
+  "model": "costs.cost",
+  "pk": 9,
+  "fields": {
+    "category": "Hotels",
+    "amount": 250.0,
+    "trip": 3
+  }
+},
+{
+  "model": "costs.cost",
+  "pk": 12,
+  "fields": {
+    "category": "Car rental",
+    "amount": 80.0,
+    "trip": 3
+  }
+}
+]
