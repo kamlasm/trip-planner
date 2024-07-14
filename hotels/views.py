@@ -47,7 +47,7 @@ class HotelDetailView(APIView):
             updated_hotel.save()
             return Response(updated_hotel.data, status=status.HTTP_202_ACCEPTED)
         
-        return Response(updated_hotel.data, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
+        return Response(updated_hotel.errors, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
 
     def delete(self, request, pk):
         hotel_to_delete = self.get_hotel(pk=pk)

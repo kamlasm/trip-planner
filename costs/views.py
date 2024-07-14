@@ -47,7 +47,7 @@ class CostDetailView(APIView):
             updated_cost.save()
             return Response(updated_cost.data, status=status.HTTP_202_ACCEPTED)
         
-        return Response(updated_cost.data, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
+        return Response(updated_cost.errors, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
 
     def delete(self, request, pk):
         cost_to_delete = self.get_cost(pk=pk)

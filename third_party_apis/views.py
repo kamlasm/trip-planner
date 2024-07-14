@@ -14,7 +14,7 @@ class CountryListView(APIView):
             return Response(data, status=status.HTTP_200_OK)
 
         except: 
-            return Response(data.errors, status=status.HTTP_404_NOT_FOUND)
+            return Response(data, status=status.HTTP_404_NOT_FOUND)
 
 class CountryDetailView(APIView):  
     def get(self, _request, country):        
@@ -24,7 +24,7 @@ class CountryDetailView(APIView):
             return Response(data, status=status.HTTP_200_OK)
 
         except: 
-            return Response(data.errors, status=status.HTTP_404_NOT_FOUND)
+            return Response(data, status=status.HTTP_404_NOT_FOUND)
 
 class ExchangeRateView(APIView):     
     def get(self, _request):  

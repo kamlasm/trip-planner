@@ -13,5 +13,5 @@ class Trip(models.Model):
     flight_out_time = models.DateTimeField(null=True, blank=True)
     flight_back_number = models.CharField(max_length=40, blank=True, default='')
     flight_back_time = models.DateTimeField(null=True, blank=True)
-    activities = ArrayField(models.CharField(max_length=500, blank=True))
+    activities = ArrayField(models.CharField(max_length=500, blank=True), default=list)
     itinerary = models.TextField(blank=True, default='')

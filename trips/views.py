@@ -56,7 +56,7 @@ class TripDetailView(APIView):
             updated_trip.save()
             return Response(updated_trip.data, status=status.HTTP_202_ACCEPTED)
         
-        return Response(updated_trip.data, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
+        return Response(updated_trip.errors, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
 
     def delete(self, request, pk):
         trip_to_delete = self.get_trip(pk=pk)
@@ -84,7 +84,7 @@ class TripAddUser(APIView):
                 user.trips.add(trip)           
                 return Response({'message': 'User added to trip'}, status=status.HTTP_200_OK)
             
-            return Response({'message': 'User is already on this trip!'}, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
+            return Response({'detail': 'User is already on this trip!'}, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
         
         except User.DoesNotExist:
             raise PermissionDenied(detail='Invalid email')
@@ -106,7 +106,7 @@ class TripRemoveUser(APIView):
                 user.trips.remove(trip)           
                 return Response({'message': 'User removed from trip'}, status=status.HTTP_200_OK)
             
-            return Response({'message': 'User is not on this trip!'}, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
+            return Response({'detail': 'User is not on this trip!'}, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
         
         except User.DoesNotExist:
             raise PermissionDenied(detail='Invalid email')                    
