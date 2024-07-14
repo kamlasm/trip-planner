@@ -35,7 +35,7 @@ class ExchangeRateView(APIView):
             return Response(data, status=status.HTTP_200_OK)
 
         except: 
-            return Response(data.errors, status=status.HTTP_404_NOT_FOUND)   
+            return Response(data, status=status.HTTP_404_NOT_FOUND)   
         
 class HotelView(APIView):
     def generate_signature(self, api_key, api_secret):
@@ -53,7 +53,7 @@ class HotelView(APIView):
             data = response.json()           
             countryCode = data[0]['cca2']
         except: 
-            return Response(data.errors, status=status.HTTP_404_NOT_FOUND)
+            return Response(data, status=status.HTTP_404_NOT_FOUND)
         
         api_key = settings.HOTELBEDS_API_KEY
         api_secret = settings.HOTELBEDS_API_SECRET
@@ -91,7 +91,7 @@ class HotelView(APIView):
             'fields': 'all',
             'language': 'ENG',
             'from': 1,
-            'to': 100,
+            'to': 50,
         }
         
         try:
@@ -141,7 +141,8 @@ class FlightsView(APIView):
             'destinationLocationCode': request.data['destinationCity'],
             'departureDate': request.data['departureDate'],
             'returnDate': request.data['returnDate'],
-            'adults': request.data['adults']
+            'adults': request.data['adults'],
+            'max': 50
             }
         
         try:
