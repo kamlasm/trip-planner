@@ -5,7 +5,7 @@ class Trip(models.Model):
     def __str__(self):
         return f"{self.name}"
     
-    name = models.CharField(max_length=60)
+    name = models.CharField(max_length=40)
     country = models.CharField(max_length=60)
     start_date = models.DateField()
     end_date = models.DateField()

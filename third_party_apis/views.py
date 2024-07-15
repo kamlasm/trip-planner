@@ -119,22 +119,6 @@ class FlightsView(APIView):
         except: 
             return Response(data['errors'], status=status.HTTP_404_NOT_FOUND)
 
-    # def get(self, request):
-    #     params = {
-    #         'subType': ['CITY', 'AIRPORT'],
-    #         'keyword': request.data['keyword'],
-    #         'sort': 'analytics.travelers.score',
-    #         'view': 'LIGHT'
-    #     }
-
-    #     try: 
-    #         response = requests.get('https://test.api.amadeus.com/v1/reference-data/locations', params=params, headers=self.get_headers())
-    #         data = response.json()
-    #         print(data)
-    #         return Response(data, status=status.HTTP_200_OK)
-    #     except: 
-    #         return Response(data['errors'], status=status.HTTP_404_NOT_FOUND)
-
     def post(self, request):
         params = {
             'originLocationCode': request.data['originCity'],
@@ -142,13 +126,13 @@ class FlightsView(APIView):
             'departureDate': request.data['departureDate'],
             'returnDate': request.data['returnDate'],
             'adults': request.data['adults'],
-            'max': 50
+            'max': 50,
+            'nonStop': 'true'
             }
         
         try:
             response = requests.get('https://test.api.amadeus.com/v2/shopping/flight-offers', params=params, headers=self.get_headers())
             data = response.json()
-            print(data)
             return Response(data, status=status.HTTP_200_OK)
         except:
             return Response(data['errors'], status=status.HTTP_404_NOT_FOUND)
