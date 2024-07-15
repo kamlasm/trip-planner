@@ -1,33 +1,6 @@
 [
 {
   "model": "costs.cost",
-  "pk": 1,
-  "fields": {
-    "category": "Flights",
-    "amount": 400.0,
-    "trip": 2
-  }
-},
-{
-  "model": "costs.cost",
-  "pk": 4,
-  "fields": {
-    "category": "Car hire",
-    "amount": 80.0,
-    "trip": 2
-  }
-},
-{
-  "model": "costs.cost",
-  "pk": 5,
-  "fields": {
-    "category": "Hotel",
-    "amount": 300.0,
-    "trip": 2
-  }
-},
-{
-  "model": "costs.cost",
   "pk": 8,
   "fields": {
     "category": "Flights",
@@ -51,6 +24,60 @@
     "category": "Car rental",
     "amount": 80.0,
     "trip": 3
+  }
+},
+{
+  "model": "costs.cost",
+  "pk": 13,
+  "fields": {
+    "category": "Apartment Haro",
+    "amount": 107.0,
+    "trip": 2
+  }
+},
+{
+  "model": "costs.cost",
+  "pk": 17,
+  "fields": {
+    "category": "Flights",
+    "amount": 364.0,
+    "trip": 2
+  }
+},
+{
+  "model": "costs.cost",
+  "pk": 19,
+  "fields": {
+    "category": "Tour",
+    "amount": 100.0,
+    "trip": 3
+  }
+},
+{
+  "model": "costs.cost",
+  "pk": 20,
+  "fields": {
+    "category": "Apartment Logrono",
+    "amount": 300.0,
+    "trip": 2
+  }
+},
+{
+  "model": "costs.cost",
+  "pk": 21,
+  "fields": {
+    "category": "Car hire",
+    "amount": 65.0,
+    "trip": 2
+  }
+},
+{
+  "model": "costs.cost",
+  "pk": 22,
+  "fields": {
+    "category": "Flights",
+    "amount": 300.0,
+    "trip": 4
   }
 }
 ]

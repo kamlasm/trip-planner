@@ -10,11 +10,20 @@
 },
 {
   "model": "hotels.hotel",
-  "pk": 3,
+  "pk": 4,
   "fields": {
-    "name": "hotel 2",
-    "link": "",
-    "trip": 3
+    "name": "Haro - Apartamento Annabelle",
+    "link": "https://www.booking.com/hotel/es/el-pardo.en-gb.html?label=gen173nr-1FCAEoggI46AdIM1gEaFCIAQGYAQm4ARfIAQzYAQHoAQH4AQ2IAgGoAgO4AqqCy7QGwAIB0gIkZDE2N2ExOWItNjY0OC00YjYxLWJhZGMtOWRkNDljMWI5NTIx2AIG4AIB&sid=b684e0fd01a4ffb94d3f6b1c3d5c25d0&aid=304142",
+    "trip": 2
+  }
+},
+{
+  "model": "hotels.hotel",
+  "pk": 5,
+  "fields": {
+    "name": "Logrono - Airbnb",
+    "link": "https://www.airbnb.co.uk/rooms/21331727?source_impression_id=p3_1720893832_P3A_DYdjhJqDrU9s",
+    "trip": 2
   }
 }
 ]
